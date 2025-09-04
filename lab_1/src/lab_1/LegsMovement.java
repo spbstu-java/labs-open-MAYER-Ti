@@ -1,0 +1,8 @@
+package lab_1;
+
+public class LegsMovement implements Movement {
+    @Override
+    public void moveToPoint(Point p) {
+        System.out.println("Legs move to " + p.string());
+    }
+}
