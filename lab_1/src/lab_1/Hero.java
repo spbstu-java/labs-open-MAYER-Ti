@@ -2,6 +2,9 @@ package lab_1;
 
 public class Hero {
 
+    private Point dislocation;
+    private Movement movement;
+
     public Hero(Movement movement, Point p) {
         this.movement = movement;
         this.dislocation = p;
@@ -20,11 +23,8 @@ public class Hero {
         this.movement = movement;
     }
 
-    private Movement movement;
-
     public Point getDislocation() {
         return dislocation;
     }
 
-    private Point dislocation;
 }
