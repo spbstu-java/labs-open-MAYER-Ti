@@ -11,11 +11,12 @@ public class Main {
         LegsMovement legs = new LegsMovement();
 
         Hero aleshaPopovich = new Hero(legs, minsk);
-        System.out.println("Alesha Popovich dislocate in " + aleshaPopovich.dislocation.string());
+
+        System.out.println("Alesha Popovich dislocate in " + aleshaPopovich.getDislocation().string());
         aleshaPopovich.move(moscow);
         aleshaPopovich.setMovement(horse);
-        System.out.println("Alesha Popovich dislocate in " + aleshaPopovich.dislocation.string());
+        System.out.println("Alesha Popovich dislocate in " + aleshaPopovich.getDislocation().string());
         aleshaPopovich.move(saintPetepsburg);
-        System.out.println("Alesha Popovich dislocate in " + aleshaPopovich.dislocation.string());
+        System.out.println("Alesha Popovich dislocate in " + aleshaPopovich.getDislocation().string());
     }
 }

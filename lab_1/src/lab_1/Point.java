@@ -8,6 +8,6 @@ public class Point {
     String string() {
         return  new String("{lat: " + this.lat + " lon: " + this.lon + "}");
     }
-    double lat;
-    double lon;
+    public double lat;
+    public double lon;
 }
