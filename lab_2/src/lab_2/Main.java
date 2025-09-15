@@ -3,32 +3,47 @@ package lab_2;
 import java.lang.reflect.*;
 
 public class Main {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
+        try {
+            Class<?> clazz = DemoService.class;
+            Object instance = createInstance(clazz);
 
-        Class<?> clazz = DemoService.class;
-        Object instance = createInstance(clazz);
-
-        for (Method m : clazz.getDeclaredMethods()) {
-            if (!m.isAnnotationPresent(Repeat.class)) {
-                continue;
-            }
-
-            int mods = m.getModifiers();
-            if (!(Modifier.isProtected(mods) || Modifier.isPrivate(mods))) {
-                continue;
-            }
-
-            int times = m.getAnnotation(Repeat.class).value();
-            m.setAccessible(true);
-            Object[] params = buildDefaultArgs(m.getParameterTypes());
-            Object target = Modifier.isStatic(mods) ? null : instance;
-
-            for (int i = 0; i < times; i++) {
-                Object result = m.invoke(target, params);
-                if (m.getReturnType() != void.class) {
-                    System.out.println("Result of " + m.getName() + " #" + (i + 1) + ": " + result);
+            for (Method m : clazz.getDeclaredMethods()) {
+                if (!m.isAnnotationPresent(Repeat.class)) {
+                    continue;
                 }
+
+                int mods = m.getModifiers();
+                if (!(Modifier.isProtected(mods) || Modifier.isPrivate(mods))) {
+                    continue;
+                }
+
+                int times = m.getAnnotation(Repeat.class).value();
+                m.setAccessible(true);
+                Object[] params = buildDefaultArgs(m.getParameterTypes());
+                Object target = Modifier.isStatic(mods) ? null : instance;
+
+                for (int i = 0; i < times; i++) {
+                    Object result = m.invoke(target, params);
+                    if (m.getReturnType() != void.class) {
+                        System.out.println("Result of " + m.getName() + " #" + (i + 1) + ": " + result);
+                    }
+                }
+                // выбросит NoSuchMethodException
+                Method fake = DemoService.class.getMethod("noSuchMethod");
             }
+        } catch (ClassNotFoundException e) {
+            System.err.println("No class found: " + e.getMessage());
+        } catch (NoSuchMethodException e) {
+            System.err.println("No methon found: " + e.getMessage());
+        } catch (InvocationTargetException e) {
+            System.err.println("Error on execution method: "
+                               + e.getTargetException().getMessage());
+        } catch (InstantiationException | IllegalAccessException e) {
+            System.err.println("Error on initialize object: " + e.getMessage());
+        } catch (Exception e) {
+            // «страховка» для любых других исключений
+            e.printStackTrace();
         }
     }
 
